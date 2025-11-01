@@ -28,6 +28,15 @@ public class EmployeeWrapper {
         ACTIVE, INACTIVE
     }
     private String managerName;
+    private Long managerId;
+
+    public Long getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(Long managerId) {
+        this.managerId = managerId;
+    }
 
     public Long getId() {
         return id;
@@ -113,6 +122,7 @@ public class EmployeeWrapper {
                 ", joiningDate=" + joiningDate +
                 ", status=" + status +
                 ", managerName='" + managerName + '\'' +
+                ", managerId=" + managerId +
                 '}';
     }
 }

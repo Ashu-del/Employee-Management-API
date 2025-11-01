@@ -2,7 +2,9 @@ package com.example.employeemanagment.service;
 
 import com.example.employeemanagment.model.Employee;
 import com.example.employeemanagment.model.EmployeeWrapper;
+import com.example.employeemanagment.model.Manager;
 import com.example.employeemanagment.repo.EmployeeRepo;
+import com.example.employeemanagment.repo.managerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ import java.util.List;
 public class EmployeeService {
     @Autowired
     private EmployeeRepo repo;
+
+    @Autowired
+    private managerRepo managerRepo;
     public EmployeeWrapper getEmployee(Long id) {
         Employee employee = repo.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
         EmployeeWrapper employeeWrapper = new EmployeeWrapper();
@@ -26,14 +31,30 @@ public class EmployeeService {
         employeeWrapper.setStatus(employee.getStatus());
         if (employee.getReportingManager() != null) {
             employeeWrapper.setManagerName(employee.getReportingManager().getName());
+            employeeWrapper.setManagerId(employee.getReportingManager().getId());
         } else {
             employeeWrapper.setManagerName(null);
         }
         return employeeWrapper;
     }
 
-    public void createEmployee(Employee employee) {
-        repo.save(employee);
+    public void createEmployee(EmployeeWrapper employee) {
+        Manager manager = managerRepo.findById(employee.getManagerId()).orElseThrow(
+                ()-> new RuntimeException("Manager not found")
+        );
+
+        Employee employee1 = new Employee();
+        employee1.setName(employee.getName());
+        employee1.setEmail(employee.getEmail());
+        employee1.setPhone(employee.getPhone());
+        employee1.setDepartment(employee.getDepartment());
+        employee1.setDesignation(employee.getDesignation());
+        employee1.setJoiningDate(employee.getJoiningDate());
+        employee1.setStatus(employee.getStatus());
+        employee1.setReportingManager(manager);
+
+        repo.save(employee1);
+
     }
 
     public List<EmployeeWrapper> getAllEmployee() {
@@ -63,5 +84,13 @@ public class EmployeeService {
 
     public void deleteEmployee(long id) {
         repo.deleteById(id);
+    }
+
+    public void updateEmployee(Long id) {
+        Employee employee = repo.findById(id).orElseThrow(
+                () -> new RuntimeException("Employee Not Found")
+        );
+        employee.setStatus(Employee.Status.INACTIVE);
+
     }
 }

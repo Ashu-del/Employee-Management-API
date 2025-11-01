@@ -11,7 +11,7 @@ public class managerWrapper {
 
     private String phone;
 
-    private List<String> EmployeeName;
+    private List<Long> EmployeeId;
 
     public Long getId() {
         return id;
@@ -45,12 +45,12 @@ public class managerWrapper {
         this.phone = phone;
     }
 
-    public List<String> getEmployeeName() {
-        return EmployeeName;
+    public List<Long> getEmployeeId() {
+        return EmployeeId;
     }
 
-    public void setEmployeeName(List<String> employeeName) {
-        EmployeeName = employeeName;
+    public void setEmployeeId(List<Long> employeeId) {
+        EmployeeId = employeeId;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class managerWrapper {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", EmployeeName=" + EmployeeName +
+                ", EmployeeId=" + EmployeeId +
                 '}';
     }
 }
